@@ -1,0 +1,4 @@
+** changes
+2016-08-26 == corrected typo
+2016-08-16 == added rsa key load/save support
+2016-08-29 == Created two new functions {encrypt_message2, decrypt_message2} 
