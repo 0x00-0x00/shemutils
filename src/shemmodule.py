@@ -128,14 +128,36 @@ class Logger:
     def _create_logger(self):
         return logging.getLogger(self.logger_name)
 
-    def _create_console(self):
+    @staticmethod
+    def _create_console():
         return logging.StreamHandler()
 
-    def _create_formatter(self):
-        return logging.Formatter("%(asctime)s %(levelname)s - %(message)s","%Y-%m-%d %H:%M:%S")
+    @staticmethod
+    def _create_formatter():
+        return logging.Formatter("%(asctime)s %(levelname)s - %(message)s", "%Y-%m-%d %H:%M:%S")
 
-    def _setLevel(self, loggerObj, level=logging.DEBUG):
+    @staticmethod
+    def _setLevel(loggerObj, level=logging.DEBUG):
         return loggerObj.setLevel(level)
+
+    def success(self, string):
+        if self.color_flag:
+            self.loggerHandle.info(green("[^] ") + string)
+        else:
+            self.loggerHandle.info(string)
+        return
+
+    def step_ok(self, string):
+        if self.color_flag:
+            self.loggerHandle.info("{0} ".format(string) + " ".rjust(16, ".") + green("SUCCESS"))
+        else:
+            self.loggerHandle.info("{0} ".format(string) + " ".rjust(16, ".") + "SUCCESS")
+
+    def step_fail(self, string):
+        if self.color_flag:
+            self.loggerHandle.info("{0} ".format(string) + " ".rjust(16, ".") + red("FAILED"))
+        else:
+            self.loggerHandle.info("{0} ".format(string) + " ".rjust(16, ".") + "FAILED")
 
     def info(self, string):
         if self.color_flag:
@@ -176,9 +198,6 @@ class Logger:
 class Encryption:
     """This module uses pycrypto for encryption"""
 
-    def __init__(self):
-        print "Initializing encryption module ..."
-     
     @staticmethod
     def create_iv():
         return ''.join(chr(random.randint(0, 0xFF)) for i in range(16))
@@ -320,42 +339,10 @@ class RSA:
         self.logger.info("Procedure took %d seconds." % (s2 - s1))
         return crypto
 
-    def encrypt_message2(self, message, k):
-        """
-        This method should be preferred over its precessor because it gives opportunity to choose each key
-        you want to use to encrypt.
-        """
-        self.logger.info("Encrypting message ...")
-        s1 = time.time()
-        if k == 1:
-            crypto = rsa.encrypt(message, self.private_key)
-        else:
-            crypto = rsa.encrypt(message, self.public_key)
-        s2 = time.time()
-        self.logger.info("Encryption success.")
-        self.logger.info("Procedure took %d seconds." % (s2 - s1))
-        return crypto
-
     def decrypt_message(self, cipher):
         self.logger.info("Decrypting cipher ...")
         s1 = time.time()
         decrypto = rsa.decrypt(cipher, self.private_key)
-        s2 = time.time()
-        self.logger.info("Decryption success.")
-        self.logger.info("Procedure took %d seconds." % (s2 - s1))
-        return decrypto
-
-    def decrypt_message2(self, cipher, k):
-        """
-        This method should be preferred over its precessor because it gives opportunity to choose each key
-        you want to use to decrypt.
-        """
-        self.logger.info("Decrypting cipher ...")
-        s1 = time.time()
-        if k == 1:
-            decrypto = rsa.decrypt(cipher, self.private_key)
-        else:
-            decrypto = rsa.decrypt(cipher, self.public_key)
         s2 = time.time()
         self.logger.info("Decryption success.")
         self.logger.info("Procedure took %d seconds." % (s2 - s1))
