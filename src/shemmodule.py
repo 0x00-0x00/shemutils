@@ -148,16 +148,20 @@ class Logger:
         return
 
     def step_ok(self, string):
+        max_len = 32
+        diff = len(string) - max_len
         if self.color_flag:
-            self.loggerHandle.info("{0} ".format(string) + " ".rjust(16, ".") + green("SUCCESS"))
+            self.loggerHandle.info("{0} ".format(string) + " ".rjust(diff, ".") + ": " + green("SUCCESS"))
         else:
-            self.loggerHandle.info("{0} ".format(string) + " ".rjust(16, ".") + "SUCCESS")
+            self.loggerHandle.info("{0} ".format(string) + " ".rjust(diff, ".") + ": " + "SUCCESS")
 
     def step_fail(self, string):
+        max_len = 32
+        diff = len(string) - max_len
         if self.color_flag:
-            self.loggerHandle.info("{0} ".format(string) + " ".rjust(16, ".") + red("FAILED"))
+            self.loggerHandle.info("{0} ".format(string) + " ".rjust(diff, ".") + ": " + red("FAILED"))
         else:
-            self.loggerHandle.info("{0} ".format(string) + " ".rjust(16, ".") + "FAILED")
+            self.loggerHandle.info("{0} ".format(string) + " ".rjust(diff, ".") + ": " + "FAILED")
 
     def info(self, string):
         if self.color_flag:
@@ -378,3 +382,50 @@ class RSA:
         self.public_key = rsa.PublicKey.load_pkcs1(pub_data)
         self.logger.info("Key pair successfully loaded.")
         return True
+
+
+class FileExists(Exception):
+    pass
+
+
+class EmptyBuffer(Exception):
+    pass
+
+
+class MD5Sum(object):
+    def __init__(self, file_object):
+        self.file = file_object
+        self.file_fd = int()
+        self.buffer = str()
+        self.md5_checksum = str()
+
+    def start(self):
+        """
+        Establish logical order from object methods
+        """
+        if not self._check_exists():
+            raise FileExists("File '{0}' does not exists.".format(self.file))
+
+        self.file_fd = self._get_fd()  # returns a fd to file_fd var
+        self.buffer = self._read_bytes(512)  # reads 512 bytes from file
+
+        if not self.buffer or len(self.buffer) == 0:
+            raise EmptyBuffer("Empty buffer")
+
+        self.md5_checksum = self.retrieve_md5()
+        if not self.md5_checksum or len(self.buffer) == 0:
+            raise EmptyBuffer("Empty MD5 buffer")
+
+    def retrieve_md5(self):
+        m = hashlib.md5()
+        m.update(self.buffer)
+        return m.hexdigest()
+
+    def _read_bytes(self, n):
+        return self.file_fd.read(n) if type(self.file_fd) is not int else ""
+
+    def _get_fd(self):
+        return open(self.file, "rb")
+
+    def _check_exists(self):
+        return True if os.path.exists(self.file) else False
