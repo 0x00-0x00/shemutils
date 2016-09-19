@@ -132,9 +132,8 @@ class Logger:
     def _create_console():
         return logging.StreamHandler()
 
-    @staticmethod
-    def _create_formatter():
-        return logging.Formatter("%(asctime)s %(levelname)s - %(message)s", "%Y-%m-%d %H:%M:%S")
+    def _create_formatter(self):
+        return logging.Formatter("%(asctime)s [%s:%(levelname)s] - %(message)s", "%Y-%m-%d %H:%M:%S" % self.logger_name)
 
     @staticmethod
     def _setLevel(loggerObj, level=logging.DEBUG):
@@ -149,7 +148,7 @@ class Logger:
 
     def step_ok(self, string):
         max_len = 32
-        diff = max_len - str(string)
+        diff = max_len - len(string)
         if self.color_flag:
             self.loggerHandle.info("{0} ".format(string) + " ".rjust(diff, ".") + ": " + green("SUCCESS"))
         else:
@@ -157,7 +156,7 @@ class Logger:
 
     def step_fail(self, string):
         max_len = 32
-        diff = max_len - str(string)
+        diff = max_len - len(string)
 
         if self.color_flag:
             self.loggerHandle.info("{0} ".format(string) + " ".rjust(diff, ".") + ": " + red("FAILED"))
