@@ -133,7 +133,7 @@ class Logger:
         return logging.StreamHandler()
 
     def _create_formatter(self):
-        return logging.Formatter("%(asctime)s [%s:%(levelname)s] - %(message)s", "%Y-%m-%d %H:%M:%S" % self.logger_name)
+        return logging.Formatter("%(asctime)s [%(name)s] %(levelname)s: %(message)s", "%H:%M:%S")
 
     @staticmethod
     def _setLevel(loggerObj, level=logging.DEBUG):

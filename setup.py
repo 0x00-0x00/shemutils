@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='shemutils',
-      version='0.1.4',
+      version='0.1.6',
       description='Shemhazai Utilities',
       url='https://bitbucket.org/itslikeme/shemutils',
       author='Shemhazai',
