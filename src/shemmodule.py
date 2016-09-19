@@ -149,7 +149,7 @@ class Logger:
 
     def step_ok(self, string):
         max_len = 32
-        diff = len(string) - max_len
+        diff = max_len - str(string)
         if self.color_flag:
             self.loggerHandle.info("{0} ".format(string) + " ".rjust(diff, ".") + ": " + green("SUCCESS"))
         else:
@@ -157,7 +157,8 @@ class Logger:
 
     def step_fail(self, string):
         max_len = 32
-        diff = len(string) - max_len
+        diff = max_len - str(string)
+
         if self.color_flag:
             self.loggerHandle.info("{0} ".format(string) + " ".rjust(diff, ".") + ": " + red("FAILED"))
         else:
