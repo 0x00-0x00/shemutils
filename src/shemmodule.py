@@ -220,19 +220,19 @@ class Encryption:
 
     @staticmethod
     def get_key(bits=256):
-        print "Bit-size selected: %d" % bits
+        sys.stderr.write("Bit-size selected: %d\n" % bits)
         k = str()
         c = str("c")
         while k != c:
             if k == c:
                 break
-            k = getpass.getpass("Type your key: ")
-            c = getpass.getpass("Confirm your key: ")
+            k = getpass.getpass("Type your key: ", sys.stderr)
+            c = getpass.getpass("Confirm your key: ", sys.stderr)
         if bits == 256:
-            print "Generating 256-bit key ..."
+            sys.stderr.write("Generating 256-bit key ...\n")
             return Encryption.hash256(k)
         elif bits == 128:
-            print "Generating 128-bit key ..."
+            sys.stderr.write("Generating 128-bit key ...\n")
             return Encryption.hashmd5(k)
 
     @staticmethod
