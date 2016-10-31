@@ -11,6 +11,7 @@ import rsa
 import multiprocessing
 from Crypto.Cipher import AES
 
+
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -51,61 +52,6 @@ def importationerror(module):
     return
 
 
-class Persistence:
-    """Module written by shemhazai to search for nice spots to hide files on windows system's"""
-
-    def __init__(self):
-        self.logger     = Logger("Persistence")
-
-    def _check_os(self):
-        return True if os.name == 'nt' else False
-
-    def _check_folder_perm(self, folder):
-        """
-        We will check permissions from argument folder and return a triple tuple, with write, read and exe-
-        cute permissions in boolean representation.
-        """
-        return map(lambda x: True if os.access(folder, x) else False, [os.W_OK, os.R_OK, os.X_OK])
-
-    def get_logicaldisk(self):
-        """Combination of _get_wmic and _check_folder_perm yielding its results. """
-        get = self._get_wmic()
-        return [get, [self._check_folder_perm(x) for x in get]]
-
-    def _get_wmic(self, x=0, timeout=10):
-        """
-        We will use wmic to get information about disks, but if never used, wmic needs to install itself.
-        So, for that, we open one instance of wmic and give it time to install itself.
-        Then, we open another one instance, effectively gathering all our needed information.
-
-        The default timeout for gathering information is 10 seconds. If the system takes too much time
-        the operation will be aborted.
-        """
-
-        '# Just to ensure the wmic is installed. '
-        self.logger.info("Just ensuring wmic is intalled ...")
-        proc = subprocess.Popen("wmic /?", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        time.sleep(timeout)
-        proc.terminate()
-
-        '# Now the real magic happens'
-        self.logger.info("Trying to get logical disk information ...")
-        proc = subprocess.Popen("wmic logicaldisk get caption", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        while proc.poll() is not 0:
-            time.sleep(1)
-            x += 1
-            if x > (timeout - 1):
-                self.logger.error("Timeout occurred trying to get logical disk caption.")
-                proc.terminate()
-                return False
-
-        proc.terminate()
-        return self._parse_wmic_data(proc.communicate()[0])
-
-    def _parse_wmic_data(self, data):
-        return filter(lambda x: ":" in x, [str(x).replace(" ", "") for x in data.split("\r\r\n")])
-
-
 class Logger:
     def __init__(self, logger_name):
         """Logging module wrapper to easily encapsulate code for re-use in my own projects."""
@@ -123,7 +69,7 @@ class Logger:
         return True if self.operational_system == "posix" else False
 
     def define_logger_level(self, objs):
-        return [self._setLevel(x) for x in objs]
+        return [self._set_level(x) for x in objs]
 
     def _create_logger(self):
         return logging.getLogger(self.logger_name)
@@ -132,12 +78,13 @@ class Logger:
     def _create_console():
         return logging.StreamHandler()
 
-    def _create_formatter(self):
+    @staticmethod
+    def _create_formatter():
         return logging.Formatter("%(asctime)s [%(name)s] %(levelname)s: %(message)s", "%H:%M:%S")
 
     @staticmethod
-    def _setLevel(loggerObj, level=logging.DEBUG):
-        return loggerObj.setLevel(level)
+    def _set_level(logger_obj, level=logging.DEBUG):
+        return logger_obj.setLevel(level)
 
     def success(self, string):
         if self.color_flag:
