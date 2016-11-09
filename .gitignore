@@ -3,3 +3,9 @@ build/*
 shemutils.egg-info/*
 .idea/*
 .*
+build/
+dist/
+old/
+shemutils.egg-info/
+to-do
+to-do~

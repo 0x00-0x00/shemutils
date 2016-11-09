@@ -1,7 +1,5 @@
 import os
-import subprocess
 import time
-import logging
 import random
 import hashlib
 import getpass
@@ -12,142 +10,11 @@ import multiprocessing
 from Crypto.Cipher import AES
 
 
-class bcolors:
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
-
-
-def green(message):
-    return bcolors.OKGREEN + message + bcolors.ENDC
-
-
-def blue(message):
-    return bcolors.OKBLUE + message + bcolors.ENDC
-
-
-def yellow(message):
-    return bcolors.WARNING + message + bcolors.ENDC
-
-
-def red(message):
-    return bcolors.FAIL + message + bcolors.ENDC
-
-
-def bold(message):
-    return bcolors.BOLD + message + bcolors.ENDC
-
-
-def underline(message):
-    return bcolors.UNDERLINE + message + bcolors.ENDC
-
-
-def importationerror(module):
-    print "ShemUtils Error: You need to install %s module to use this library." % module
-    return
-
-
-class Logger:
-    def __init__(self, logger_name):
-        """Logging module wrapper to easily encapsulate code for re-use in my own projects."""
-        self.logger_name = logger_name
-        self.operational_system = os.name
-        self.color_flag = self.set_color_flag()
-        self.loggerHandle = self._create_logger()
-        self.consoleHandle = self._create_console()
-        self.formatter = self._create_formatter()
-        self.define_logger_level([self.loggerHandle, self.consoleHandle])
-        self.consoleHandle.setFormatter(self.formatter)
-        self.loggerHandle.addHandler(self.consoleHandle)
-
-    def set_color_flag(self):
-        return True if self.operational_system == "posix" else False
-
-    def define_logger_level(self, objs):
-        return [self._set_level(x) for x in objs]
-
-    def _create_logger(self):
-        return logging.getLogger(self.logger_name)
-
-    @staticmethod
-    def _create_console():
-        return logging.StreamHandler()
-
-    @staticmethod
-    def _create_formatter():
-        return logging.Formatter("%(asctime)s [%(name)s] %(levelname)s: %(message)s", "%H:%M:%S")
-
-    @staticmethod
-    def _set_level(logger_obj, level=logging.DEBUG):
-        return logger_obj.setLevel(level)
-
-    def success(self, string):
-        if self.color_flag:
-            self.loggerHandle.info(green("[^] ") + string)
-        else:
-            self.loggerHandle.info(string)
-        return
-
-    def step_ok(self, string):
-        max_len = 32
-        diff = max_len - len(string)
-        if self.color_flag:
-            self.loggerHandle.info("{0} ".format(string) + " ".rjust(diff, ".") + ": " + green("SUCCESS"))
-        else:
-            self.loggerHandle.info("{0} ".format(string) + " ".rjust(diff, ".") + ": " + "SUCCESS")
-
-    def step_fail(self, string):
-        max_len = 32
-        diff = max_len - len(string)
-
-        if self.color_flag:
-            self.loggerHandle.info("{0} ".format(string) + " ".rjust(diff, ".") + ": " + red("FAILED"))
-        else:
-            self.loggerHandle.info("{0} ".format(string) + " ".rjust(diff, ".") + ": " + "FAILED")
-
-    def info(self, string):
-        if self.color_flag:
-            self.loggerHandle.info(blue("[*] ") + string)
-        else:
-            self.loggerHandle.info(string)
-        return
-
-    def debug(self, string):
-        if self.color_flag:
-            self.loggerHandle.debug(yellow("[#] ") + string)
-        else:
-            self.loggerHandle.debug(string)
-        return
-
-    def warning(self, string):
-        if self.color_flag:
-            self.loggerHandle.warning(yellow("[!] ") + string)
-        else:
-            self.loggerHandle.warning(string)
-        return
-
-    def error(self, string):
-        if self.color_flag:
-            self.loggerHandle.error(red("[@] ") + string)
-        else:
-            self.loggerHandle.error(string)
-        return
-
-    def critical(self, string):
-        if self.color_flag:
-            self.loggerHandle.critical(red("[!!] ") + string)
-        else:
-            self.loggerHandle.critical(string)
-        return
-
-
 class Encryption:
     """This module uses pycrypto for encryption"""
+
+    def __init__(self):
+        pass
 
     @staticmethod
     def create_iv():
@@ -330,49 +197,3 @@ class RSA:
         self.logger.info("Key pair successfully loaded.")
         return True
 
-
-class FileExists(Exception):
-    pass
-
-
-class EmptyBuffer(Exception):
-    pass
-
-
-class MD5Sum(object):
-    def __init__(self, file_object):
-        self.file = file_object
-        self.file_fd = int()
-        self.buffer = str()
-        self.md5_checksum = str()
-
-    def start(self):
-        """
-        Establish logical order from object methods
-        """
-        if not self._check_exists():
-            raise FileExists("File '{0}' does not exists.".format(self.file))
-
-        self.file_fd = self._get_fd()  # returns a fd to file_fd var
-        self.buffer = self._read_bytes(512)  # reads 512 bytes from file
-
-        if not self.buffer or len(self.buffer) == 0:
-            raise EmptyBuffer("Empty buffer")
-
-        self.md5_checksum = self.retrieve_md5()
-        if not self.md5_checksum or len(self.buffer) == 0:
-            raise EmptyBuffer("Empty MD5 buffer")
-
-    def retrieve_md5(self):
-        m = hashlib.md5()
-        m.update(self.buffer)
-        return m.hexdigest()
-
-    def _read_bytes(self, n):
-        return self.file_fd.read(n) if type(self.file_fd) is not int else ""
-
-    def _get_fd(self):
-        return open(self.file, "rb")
-
-    def _check_exists(self):
-        return True if os.path.exists(self.file) else False
