@@ -8,6 +8,7 @@ import struct
 import rsa
 import multiprocessing
 from Crypto.Cipher import AES
+from logger import Logger
 
 
 class Encryption:
@@ -143,27 +144,42 @@ class RSA:
         self.private_key = None
         self.cpu_count = multiprocessing.cpu_count()
 
-    def generate_keypair(self, bits=4096):
-        self.logger.info("Generating new %d-bits key pair ..." % bits)
+    def generate_keypair(self, bits=4096, v=True):
+        if v is not False:
+            self.logger.info("Generating new %d-bits key pair ..." % bits)
+        t1 = time.time()
         self.public_key, self.private_key = rsa.newkeys(bits, poolsize=self.cpu_count)
+        t2 = time.time()
+        if v is not False:
+            self.logger.info("Key pair generation took {0} seconds.".format(t2-t1))
         return True
 
-    def encrypt_message(self, message):
-        self.logger.info("Encrypting message ...")
+    def encrypt_message(self, message, v=True):
+        """
+
+        :param message: string
+        :param v: boolean  # stands for verbose
+        :return:
+        """
+        if v is not False:
+            self.logger.info("Encrypting message ...")
         s1 = time.time()
         crypto = rsa.encrypt(message, self.public_key)
         s2 = time.time()
-        self.logger.info("Encryption success.")
-        self.logger.info("Procedure took %d seconds." % (s2 - s1))
+        if v is not False:
+            self.logger.info("Encryption success.")
+            self.logger.info("Procedure took {0} seconds.".format(s2-s1))
         return crypto
 
-    def decrypt_message(self, cipher):
-        self.logger.info("Decrypting cipher ...")
+    def decrypt_message(self, cipher, v=True):
+        if v is not False:
+            self.logger.info("Decrypting cipher ...")
         s1 = time.time()
         decrypto = rsa.decrypt(cipher, self.private_key)
         s2 = time.time()
-        self.logger.info("Decryption success.")
-        self.logger.info("Procedure took %d seconds." % (s2 - s1))
+        if v is not False:
+            self.logger.info("Decryption success.")
+            self.logger.info("Procedure took %d seconds." % (s2 - s1))
         return decrypto
 
     def save_keys(self, priv_f="private_key.pem",  pub_f="public_key.pem"):

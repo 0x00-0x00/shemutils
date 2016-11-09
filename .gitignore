@@ -6,6 +6,7 @@ shemutils.egg-info/*
 build/
 dist/
 old/
+.idea/
 shemutils.egg-info/
 to-do
 to-do~
