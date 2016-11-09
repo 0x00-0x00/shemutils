@@ -10,7 +10,6 @@ import multiprocessing
 from Crypto.Cipher import AES
 from logger import Logger
 
-
 class Encryption:
     """This module uses pycrypto for encryption"""
 

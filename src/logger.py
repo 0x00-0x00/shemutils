@@ -1,7 +1,5 @@
 import os
 import logging
-import gevent
-import sys
 from colors import *
 
 
