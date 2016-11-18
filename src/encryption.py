@@ -10,6 +10,41 @@ import multiprocessing
 from Crypto.Cipher import AES
 from logger import Logger
 
+
+class Key(object):
+    """
+    Class Key written by shemhazai
+    This method generates a random key, unencoded or encoded in base64.
+    """
+    def __init__(self, bits):
+        self.key_size = bits
+        if self._parse_bits() != 0:
+            self.key = None
+        else:
+            self.key = self._generate_key()
+
+    def _parse_bits(self):
+        """Parse if the input int is divisible by 2"""
+        if self.key_size % 2 != 0:
+            return -1
+        return 0
+
+    def _generate_key(self):
+        """Generate random bytes and join them into a single string"""
+        return ''.join(chr(random.randint(0, 0xFF)) for i in range(self.key_size))
+
+    def get(self, encoded=False):
+        """
+        Method for returning the generated key
+        :param encoded: Boolean
+        :return: key string
+        """
+        if encoded is True:
+            return self.key.encode("base64")
+
+        return self.key
+
+
 class Encryption:
     """This module uses pycrypto for encryption"""
 
@@ -196,7 +231,7 @@ class RSA:
             self.logger.info("Public key saved to file '%s" % pub_f)
         return True
 
-    def load_keys(self, priv_f, pub_f):
+    def load_keys(self, priv_f, pub_f, v=True):
         if not os.path.isfile(priv_f):
             self.logger.error("Private key file does not exists.")
         if not os.path.isfile(pub_f):
@@ -209,6 +244,7 @@ class RSA:
             pub_data = pub_data.encode("ascii")
         self.private_key = rsa.PrivateKey.load_pkcs1(priv_data)
         self.public_key = rsa.PublicKey.load_pkcs1(pub_data)
-        self.logger.info("Key pair successfully loaded.")
+        if v is True:
+            self.logger.info("Key pair successfully loaded.")
         return True
 
