@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='shemutils',
-    version='0.1.7',
+    version='0.1.8',
     packages=['shemutils'],
     package_dir={"shemutils": "src"},
     package_data={"shemutils": ["src/*"]},

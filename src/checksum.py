@@ -20,6 +20,7 @@ class Checksum(object):
         self.logger = Logger("Checksum")
 
     def _check(self):
+        """Check if file supplied in class argument really exists."""
         if not os.path.isfile(self.file):
             if self.verbose:
                 self.logger.critical("Could not find file '{0}'".format(self.file))
@@ -28,6 +29,7 @@ class Checksum(object):
             return 0
 
     def _readnhash(self, algorithm, chunk=4096):
+        """Detects algorithm, read file content, update into alg. object and hex digest."""
         if algorithm == 0 or algorithm == "md5":
             m = hashlib.md5()
             alg = "MD5"
@@ -68,6 +70,7 @@ class Checksum(object):
         return m.hexdigest() + "    " + "{0}".format(self.file)
 
     def get(self):
+        """Returns the output from _readnhash() function"""
         if self._check() < 0:
             return -1
         g = gevent.spawn(self._readnhash, self.algorithm)

@@ -1,12 +1,7 @@
-dist/*
-build/*
-shemutils.egg-info/*
-.idea/*
 .*
 build/
 dist/
 old/
-.idea/
 shemutils.egg-info/
-to-do
-to-do~
+to-do*
+test/
