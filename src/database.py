@@ -23,7 +23,14 @@ class Controller(object):
     def execute(self, sql):
         if type(sql) is not str:
             return -1
-        self.cursor.execute(sql)  # execute query passed to function
+        try:
+            self.cursor.execute(sql)  # execute query passed to function
+        except sqlite3.OperationalError as e:
+            if self.logger:
+                self.logger.error("Error executing query: {0}".format(e))
+            else:
+                raise sqlite3.OperationalError
+
         if self.logger:
             self.logger.info("Executed SQL: {0}".format(sql))
 
@@ -108,7 +115,37 @@ class Table(object):
         return "CREATE TABLE IF NOT EXISTS {0} (id INTEGER PRIMARY KEY AUTOINCREMENT, {1}".format(self.name,
                                                                                                   self._colstr())
 
+    def remove_row(self, c, k):
+        """
+        :param c: string containing column name
+        :param k: string to search through table
+        :return: string containing SQL query to do the desired operation
+        """
+        return "DELETE FROM {0} WHERE {1} = '{2}'".format(self.name, c, k)
+
+    def remove_rows(self, c, k):
+        """
+        :param c: string containing column name
+        :param k: string to search through table
+        :return: string containing SQL query to do the desired operation
+        """
+        return "DELETE FROM {0} WHERE {1} LIKE '%{2}%'".format(self.name, c, k)
+
+    def update_row(self, c2, k, c1, v):
+        """
+        :param c1: string containing column to be updated
+        :param v: string containing new value for the row
+        :param c2: string containing column name for the query condition
+        :param k: string containing keyword value for the query condition
+        :return: string containing SQL query to do the desired operation
+        """
+        return "UPDATE {0} SET {1} = '{2}' WHERE {3} LIKE '%{4}%'".format(self.name, c1, v, c2, k)
+
     def insert_data(self, data):
+        """
+        :param data: list containing data in the same number of elements that this table has -1 (for id column)
+        :return: string containing SQL query to do the desired operation
+        """
         if type(data) != list:
             raise TypeError
         return "INSERT INTO {0} VALUES (NULL, {1})".format(self.name, self._format_data(data))
