@@ -139,7 +139,7 @@ class Table(object):
         :param k: string containing keyword value for the query condition
         :return: string containing SQL query to do the desired operation
         """
-        return "UPDATE {0} SET {1} = '{2}' WHERE {3} LIKE '%{4}%'".format(self.name, c1, v, c2, k)
+        return "UPDATE {0} SET {1} = '{2}' WHERE {3} LIKE '%{4}%'".format(self.name, c1, k, c2, v)
 
     def insert_data(self, data):
         """
