@@ -1,4 +1,5 @@
 import sqlite3
+from copy import copy
 from database_errors import InvalidInitializer, InvalidSize
 from gevent.event import Event
 from shemutils import Logger
@@ -140,6 +141,26 @@ class Table(object):
         :return: string containing SQL query to do the desired operation
         """
         return "UPDATE {0} SET {1} = '{2}' WHERE {3} LIKE '%{4}%'".format(self.name, c1, k, c2, v)
+
+    def search(self, t, k, c=None):
+        """
+        Function to generate a sql query to retrieve information from a database.
+        :param t: String containing column name for the query condition
+        :param k: String containing keyword value for the query condition
+        :param c: None or string containing a list with column names desired for information retrieval
+        :return: string containing SQL query to do the desired operation
+        """
+        if c is None:  # all columns
+            c = "*"
+        else:  # if specified any column list
+            if type(c) is not list:
+                raise TypeError("Variable 'c' must be 'list' type.")
+            k = copy(c)
+            c = str()
+            for p in k:
+                c += "{0},".format(p)
+            c = c[:-1]
+        return "SELECT {0} FROM {1} WHERE {2} LIKE '%{3}%'".format(c, self.name, t, k)
 
     def insert_data(self, data):
         """
