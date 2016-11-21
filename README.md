@@ -16,15 +16,21 @@ Module to work on logging information from your programs.
 - Option to store logging messages into files
 
 #### *Usage*
+
 To create a logger:
+
 `from shemutils.logger import Logger`
 `logger = Logger("Program A")`
 
+
 To log a debug message:
-`>>> logger.debug("Debug Message")`
+
+`logger.debug("Debug Message")`
 `01:08:15 [Program A] DEBUG: [#] Debug Message`
+
     
 To log a information message:
+
 `>>> logger.info("Program has started.")`
 `01:09:36 [Program A] INFO: [*] Program has started.`
 
@@ -71,27 +77,44 @@ This objects returns strings, more specifically SQL queries strings, to fuel the
     **args are placeholder for actual arguments of each function.
     
 #### *Usage*
+
+
 To create a database named "SimpleDatabase.db" in your local script folder:
+
 `from shemutils.database import *`
+
 `db = Database("SimpleDatabase")`
 
+
 To create a table CONTACTS with 3 columns (Name Char, Age Int, Sex Char):
+
 `t1 = Table("CONTACTS", 
     {"Name": TEXT,
     "Age": INTEGER,
     "Sex": TEXT})`
+
 `db.controller.execute(t1.create())`
+
 `db.save()`
+
 
 To insert data into it:
+
 `insertion_query = t1.insert_data(["Bob", 35, "Male"])`
+
 `db.controller.execute(insertion_query)`
+
 `db.save()`
 
+
 To search data inside:
+
 `search = raw_input("Type a name to search: ")`
+
 `search_query = t1.search("Name", "Bob")`
+
 `db.controller.execute(search_query)`
+
 `results = db.controller.get()`
 
 -----
