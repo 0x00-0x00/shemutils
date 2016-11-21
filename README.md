@@ -6,8 +6,8 @@
 -----
 ## Requirements
 1. [gevent](https://github.com/gevent/gevent) 
-2. pycrypto
-3. rsa
+2. pycrypto *pip install pycrypto*
+3. rsa *pip install rsa*
  
 -----
 ## Module Index
