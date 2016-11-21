@@ -13,7 +13,7 @@ class Checksum(object):
     examples:
     checksum = Checksum("file.pdf", 0) or Checksum("file.pdf", "md5")
     """
-    def __init__(self, filename, algorithm, verbose=True):
+    def __init__(self, filename, algorithm, verbose=False):
         self.file = filename
         self.algorithm = algorithm
         self.verbose = verbose

@@ -188,7 +188,7 @@ class RSA:
             self.logger.info("Key pair generation took {0} seconds.".format(t2-t1))
         return True
 
-    def encrypt_message(self, message, v=True):
+    def encrypt_message(self, message, v=False):
         """
 
         :param message: string
@@ -205,7 +205,7 @@ class RSA:
             self.logger.info("Procedure took {0} seconds.".format(s2-s1))
         return crypto
 
-    def decrypt_message(self, cipher, v=True):
+    def decrypt_message(self, cipher, v=False):
         if v is not False:
             self.logger.info("Decrypting cipher ...")
         s1 = time.time()
@@ -216,7 +216,7 @@ class RSA:
             self.logger.info("Procedure took %d seconds." % (s2 - s1))
         return decrypto
 
-    def save_keys(self, priv_f="private_key.pem",  pub_f="public_key.pem"):
+    def save_keys(self, priv_f="private_key.pem",  pub_f="public_key.pem", v=False):
         if self.public_key is None:
             self.logger.error("Public Key does not exists. Generate it.")
             return False
@@ -228,10 +228,11 @@ class RSA:
             self.logger.info("Private key saved to file '%s'" % priv_f)
         with open(pub_f, "w") as pub:
             pub.write(self.public_key.save_pkcs1())
-            self.logger.info("Public key saved to file '%s" % pub_f)
+            if v is True:
+                self.logger.info("Public key saved to file '%s" % pub_f)
         return True
 
-    def load_keys(self, priv_f, pub_f, v=True):
+    def load_keys(self, priv_f, pub_f, v=False):
         if not os.path.isfile(priv_f):
             self.logger.error("Private key file does not exists.")
         if not os.path.isfile(pub_f):
