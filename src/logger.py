@@ -45,7 +45,7 @@ class Logger:
             date_stamp = time.strftime("%H:%M:%S")
             preffix = "[%s] %s:" % (self.logger_name, date_stamp)
             with open(self.log_file, "a") as f:
-                f.write(preffix + string)
+                f.write(preffix + string + "\n")
             return 0
         return -1
 
