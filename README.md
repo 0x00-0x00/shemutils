@@ -11,9 +11,9 @@
 -----
 #### *About*
 Module to work on logging information from your programs.
-- Color support
-- Success, error, information and debug template logging messages
-- Option to store logging messages into files
+    + Color support
+    + Success, error, information and debug template logging messages
+    + Option to store logging messages into files
 
 ##### Logger Object
 Object to handle the logging to the screen and to file.
@@ -27,29 +27,23 @@ Object to handle the logging to the screen and to file.
     step_fail()     -> Display FAIL message to a procedure step
 
 #### *Usage*
-
-> To create a logger:
-
+To create a logger:
 ```python
 from shemutils.logger import Logger
 logger = Logger("Program A")
 ```
 
-
-> To log a debug message:
-
+To log a debug message:
 ```python
 logger.debug("Debug Message")
-01:08:15 [Program A] DEBUG: [#] Debug Message
 ```
-
+01:08:15 [Program A] DEBUG: [#] Debug Message
     
-> To log a information message:
-
+To log a information message:
 ```python
 logger.info("Program has started.")
-01:09:36 [Program A] INFO: [*] Program has started.
 ```
+01:09:36 [Program A] INFO: [*] Program has started.
 
     And there is much more methods for you to explore, like:
     logger.error, logger.step_ok, logger.step_fail, logger.critical.
@@ -110,7 +104,7 @@ db.controller.execute(t1.create())
 db.save()
 ```
 
-> To insert data into it:
+To insert data into it:
 ```python
 insertion_query = t1.insert_data(["Bob", 35, "Male"])
 db.controller.execute(insertion_query)
@@ -118,7 +112,7 @@ db.save()
 ```
 
 
-> To search data inside:
+To search data inside:
 ```python
 search_name = raw_input("Type a name to search: ")
 search_query = t1.search("Name", search_name)
