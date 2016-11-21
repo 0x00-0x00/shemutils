@@ -237,8 +237,20 @@ True
 ### __Checksum Module__
 -----
 #### About
+The Checksum module implements file hashing among a variety of algorithms, like md5, sha256, sha512 or sha1.
 #### Usage
------
+To get a md5 hash from a file named "test.txt": 
+```python
+>>> from shemutils.checksum import Checksum
+>>> filename = "test.txt"
+>>> c = Checksum(filename, "md5")
+>>> c.get()
+'d2772f0867cdfc881426088f50af0eb2    test.txt'
+```
+It works exactly as md5sum from the linux shell terminal.
+
+
+---------------------------------------------------------
 
 
 
