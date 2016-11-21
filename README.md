@@ -20,7 +20,10 @@
 ### __Logger Module__
 -----
 #### *About*
-Module to work on logging information from your programs.
+This module is used to print data in form of Loggers.
+Say you have a program, and it need to give back information about its procedures to the user.
+Instead of printing it to the console, the programmer has the oportunity to print it with colors, time, and classify the data into categories.
+
 + Color support
 + Success, error, information and debug template logging messages
 + Option to store logging messages into files
