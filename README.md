@@ -1,4 +1,4 @@
-# shemutils - python multi-task library 
+# shemutils - a python multi-task library 
 ## About
     This library is designed to ease the code and support quick and 
     flexible programming of your own applications.
