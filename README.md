@@ -7,13 +7,14 @@
 ## Modules
 
 
-### __Logger__
+
+### __Logger Module__
 -----
 #### *About*
 Module to work on logging information from your programs.
-    + Color support
-    + Success, error, information and debug template logging messages
-    + Option to store logging messages into files
++ Color support
++ Success, error, information and debug template logging messages
++ Option to store logging messages into files
 
 ##### Logger Object
 Object to handle the logging to the screen and to file.
@@ -48,7 +49,10 @@ logger.info("Program has started.")
     And there is much more methods for you to explore, like:
     logger.error, logger.step_ok, logger.step_fail, logger.critical.
 
-### __Database__
+
+
+-----
+### __Database Module__
 -----
 #### *About*
 Module to operate efficiently with sqlite3 databases. 
@@ -120,15 +124,61 @@ db.controller.execute(search_query)
 results = db.controller.get()
 ```
 
+
+-----
+### __Encryption Module__
+-----
+#### About
+The Encryption module serves to quickly implement encryption to a certain degree to programs or scripts.
+The module supports:
++ AES-128 or AES-256 encryption
++ RSA-4096 encryption
+    + RSA Key save and load functions to re-use the key pair.
++ Random key generation
++ Message and file encryption
+
+#### Classes
+##### Encryptor
+This class is all about AES encryption and key hashing. It supports both message and file encryption with have separate functions to each.
+More information about usage in the Usage sector.
+
+##### RSA
+With a rather self-explaining name, RSA class stands for RSA encryption in this module. It only supports message encryption, as assymetric encryption suffers heavily from efficiency issues compared to the symmetric encryption. As it stands, it is still possible to encrypt a file with it, but in this module, I recommend as a good practice to use assymetric encryption to exchange symmetric key between peers of communication and then encrypt the data with it.
+This class has the ability to save (store in file) and load keys, as generation can be lenghty to some lower potency CPU's.
+
+##### Key
+It is a simple class to generate pseudo-random keys, retrieving the key in byte or encoded form.
+
+#### Usage
+-----
+##### Key generation
+Here is the code snippet to generate a key
+```python
+>>> from shemutils.encryption import Key
+>>> k = Key(32)  # 32 stands for key size in bytes. (32 * 8 = 256 bits)
+>>> k.get()  # to return the non-encoded key
+'\x91\x0e\xb4\xad!\x94\x89\xa8\x05\xddA\xe8R\xd7\x13\x1f\xbd\xdeV\xb5\x90b\xbdX\x02\x80\xf9\\\x96\xa0I\x1b' 
+```
+
+##### Encryption
+
+
+
+-----
+### __Checksum Module__
+-----
+#### About
+#### Usage
 -----
 
-### Encryption
------
 
+
+-----
 ## Requirements
->> gevent
->> pycrypto
->> getpass
->> rsa
+1. gevent
+2. pycrypto
+3. getpass
+4. rsa
+-----
 
 
