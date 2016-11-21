@@ -30,20 +30,26 @@ Object to handle the logging to the screen and to file.
 
 > To create a logger:
 
-`from shemutils.logger import Logger`
-`logger = Logger("Program A")`
+```python
+from shemutils.logger import Logger
+logger = Logger("Program A")
+```
 
 
 > To log a debug message:
 
-`logger.debug("Debug Message")`
-`01:08:15 [Program A] DEBUG: [#] Debug Message`
+```python
+logger.debug("Debug Message")
+01:08:15 [Program A] DEBUG: [#] Debug Message
+```
 
     
 > To log a information message:
 
-`>>> logger.info("Program has started.")`
-`01:09:36 [Program A] INFO: [*] Program has started.`
+```python
+logger.info("Program has started.")
+01:09:36 [Program A] INFO: [*] Program has started.
+```
 
     And there is much more methods for you to explore, like:
     logger.error, logger.step_ok, logger.step_fail, logger.critical.
@@ -88,45 +94,37 @@ This objects returns strings, more specifically SQL queries strings, to fuel the
     **args are placeholder for actual arguments of each function.
     
 #### *Usage*
+To create a database named "SimpleDatabase.db" in your local script folder:
+```python
+from shemutils.database import *
+db = Database("SimpleDatabase")
+```
 
-
-> To create a database named "SimpleDatabase.db" in your local script folder:
-
-`from shemutils.database import *`
-
-`db = Database("SimpleDatabase")`
-
-
-> To create a table CONTACTS with 3 columns (Name Char, Age Int, Sex Char):
-
-`t1 = Table("CONTACTS", 
+To create a table CONTACTS with 3 columns (Name Char, Age Int, Sex Char):
+```python
+t1 = Table("CONTACTS", 
     {"Name": TEXT,
     "Age": INTEGER,
-    "Sex": TEXT})`
-
-`db.controller.execute(t1.create())`
-
-`db.save()`
-
+    "Sex": TEXT})
+db.controller.execute(t1.create())
+db.save()
+```
 
 > To insert data into it:
-
-`insertion_query = t1.insert_data(["Bob", 35, "Male"])`
-
-`db.controller.execute(insertion_query)`
-
-`db.save()`
+```python
+insertion_query = t1.insert_data(["Bob", 35, "Male"])
+db.controller.execute(insertion_query)
+db.save()
+```
 
 
 > To search data inside:
-
-`search_name = raw_input("Type a name to search: ")`
-
-`search_query = t1.search("Name", search_name)`
-
-`db.controller.execute(search_query)`
-
-`results = db.controller.get()`
+```python
+search_name = raw_input("Type a name to search: ")
+search_query = t1.search("Name", search_name)
+db.controller.execute(search_query)
+results = db.controller.get()
+```
 
 -----
 
