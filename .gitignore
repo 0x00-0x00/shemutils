@@ -5,3 +5,4 @@ old/
 shemutils.egg-info/
 to-do*
 test/
+*.db
