@@ -2,10 +2,19 @@
 ## About
     This library is designed to ease the code and support quick and 
     flexible programming of your own applications.
+
+-----
+## Requirements
+1. [gevent](https://github.com/gevent/gevent) 
+2. pycrypto
+3. rsa
  
 -----
-## Modules
-
+## Module Index
+* [Logger](#logger-module)
+* [Database]
+* [Encryption]
+* [Checksum]
 
 
 ### __Logger Module__
@@ -228,14 +237,5 @@ True
 #### Usage
 -----
 
-
-
------
-## Requirements
-1. gevent
-2. pycrypto
-3. getpass
-4. rsa
------
 
 
