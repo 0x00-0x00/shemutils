@@ -12,9 +12,9 @@
 -----
 ## Module Index
 * [Logger](#logger-module)
-* [Database]
-* [Encryption]
-* [Checksum]
+* [Database](#database-module)
+* [Encryption](#encryption-module)
+* [Checksum](#checksum-module)
 
 
 ### __Logger Module__
