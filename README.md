@@ -79,14 +79,14 @@ This objects returns strings, more specifically SQL queries strings, to fuel the
 #### *Usage*
 
 
-To create a database named "SimpleDatabase.db" in your local script folder:
+> To create a database named "SimpleDatabase.db" in your local script folder:
 
 `from shemutils.database import *`
 
 `db = Database("SimpleDatabase")`
 
 
-To create a table CONTACTS with 3 columns (Name Char, Age Int, Sex Char):
+> To create a table CONTACTS with 3 columns (Name Char, Age Int, Sex Char):
 
 `t1 = Table("CONTACTS", 
     {"Name": TEXT,
@@ -98,7 +98,7 @@ To create a table CONTACTS with 3 columns (Name Char, Age Int, Sex Char):
 `db.save()`
 
 
-To insert data into it:
+> To insert data into it:
 
 `insertion_query = t1.insert_data(["Bob", 35, "Male"])`
 
@@ -107,7 +107,7 @@ To insert data into it:
 `db.save()`
 
 
-To search data inside:
+> To search data inside:
 
 `search = raw_input("Type a name to search: ")`
 
