@@ -13,9 +13,15 @@
 4. rsa 
 
 ## Installation
+To download this repository, type at terminal:
+```bash
+git clone https://github.com/0x00-0x00/shemutils.git
+```
+
 To quickly install all dependencies, execute the bootstrap shell script inside source's main folder
 ```bash
 # Command to execute bootstrap script 
+cd shemutils/
 ./bootstrap.sh
 ```
  
