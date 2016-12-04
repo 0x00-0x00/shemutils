@@ -2,12 +2,22 @@
 ## About
     This library is designed to ease the code and support quick and 
     flexible programming of your own applications.
-
+    
+    PS: Some modules may work only on Linux.
+    
 -----
 ## Requirements
-1. [gevent](https://github.com/gevent/gevent) 
-2. pycrypto *pip install pycrypto*
-3. rsa *pip install rsa*
+1. Python 2.7
+2. [gevent](https://github.com/gevent/gevent) 
+3. pycrypto 
+4. rsa 
+
+## Installation
+To quickly install all dependencies, execute the bootstrap shell script inside source's main folder
+```bash
+# Command to execute bootstrap script 
+./bootstrap.sh
+```
  
 -----
 ## Module Index
