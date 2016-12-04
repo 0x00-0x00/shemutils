@@ -46,7 +46,7 @@ class Key(object):
 
 
 class Encryption:
-    """This module uses pycrypto for encryption"""
+    """This module uses pycrypto for AES encryption"""
 
     def __init__(self):
         pass

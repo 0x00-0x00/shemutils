@@ -1,5 +1,4 @@
 import os
-import random
 import time
 from logger import Logger
 
@@ -28,7 +27,7 @@ class Shredder(object):
 
     @staticmethod
     def _generate_random_block(size):
-        return ''.join(chr(random.randint(0, 0xFF)) for i in range(size))
+        return os.urandom(size)
 
     @staticmethod
     def _getsize(f):
@@ -41,12 +40,8 @@ class Shredder(object):
         :param v: verbose boolean
         :return: bytes overwritten
         """
-        cwd = os.getcwd()
-        full_path = os.path.abspath(f)
-        if v is True:
-            self.logger.debug("File: {0}".format(full_path))
 
-        file_size = self._getsize(full_path)
+        file_size = self._getsize(f)
         if v is True:
             self.logger.debug("File size: {0}".format(file_size))
 
@@ -55,11 +50,11 @@ class Shredder(object):
             self.logger.debug("Generated {0} blocks of 1kb".format(len(blocks)))
 
         try:
-            file_handle = open(full_path, "wb")
+            file_handle = open(f, "wb")
             if v is True:
                 self.logger.debug("File handle open.")
         except Exception as e:
-            self.logger.error("Could not open file in write mode.")
+            self.logger.error("ERROR: {0}".format(e))
             return -1
 
         t1 = time.time()  # track init time
