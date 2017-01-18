@@ -17,6 +17,7 @@ class Checksum(object):
         self.file = filename
         self.algorithm = algorithm
         self.verbose = verbose
+        self.hexdigest = None
         self.logger = Logger("Checksum")
 
     def _check(self):
@@ -67,7 +68,8 @@ class Checksum(object):
         #  Returns the hexadecimal digest and filename
         if self.verbose:
             self.logger.info("Processed a total of {0} bytes from file.".format(n))
-        return m.hexdigest() + "    " + "{0}".format(self.file)
+        self.hexdigest = m.hexdigest()
+        return m.hexdigest() + " " + "{0}".format(self.file)
 
     def get(self):
         """Returns the output from _readnhash() function"""
