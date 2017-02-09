@@ -8,7 +8,7 @@ import struct
 import rsa
 import multiprocessing
 from Crypto.Cipher import AES
-from logger import Logger
+from shemutils.logger import Logger
 
 
 class Key(object):

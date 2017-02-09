@@ -2,8 +2,8 @@ import os
 import hashlib
 import gevent
 
-from logger import Logger
-from colors import *
+from shemutils.logger import Logger
+from shemutils.colors import *
 
 
 class Checksum(object):

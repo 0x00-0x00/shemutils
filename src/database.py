@@ -1,10 +1,10 @@
 import sqlite3
 from copy import copy
-from database_errors import InvalidInitializer, InvalidSize
 from gevent.event import Event
 from gevent.queue import Queue
 import gevent
-from shemutils import Logger
+from shemutils.logger import Logger
+from shemutils.database_errors import InvalidInitializer, InvalidSize
 
 '# Define static variables for module'
 INTEGER = "INTEGER"

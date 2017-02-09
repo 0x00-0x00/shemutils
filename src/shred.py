@@ -1,6 +1,6 @@
 import os
 import time
-from logger import Logger
+from shemutils.logger import Logger
 
 
 class Shredder(object):

@@ -1,7 +1,7 @@
 import time
 import os
 import logging
-from colors import *
+from shemutils.colors import *
 
 
 class Logger:
