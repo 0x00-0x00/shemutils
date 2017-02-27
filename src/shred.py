@@ -18,7 +18,7 @@ class Shredder(object):
         :return: list with byte length for each block
         """
         blocks = []
-        n = size / self.chunk_size  # full-sized chunks
+        n = int(size / self.chunk_size)  # full-sized chunks
         r = size % self.chunk_size  # last chunk size
         for k in range(n):
             blocks.append(self.chunk_size)
@@ -33,7 +33,7 @@ class Shredder(object):
     def _getsize(f):
         return os.path.getsize(f)
 
-    def shred(self, f, v=False):
+    def shred(self, f, remove=False, v=False):
         """
         Function to shred files
         :param f: string file name
@@ -64,6 +64,16 @@ class Shredder(object):
             overwritten += block
             #  possibility to print percentage here.
         t2 = time.time()  # track end time
+
+
+        #  Remove the file if argument 'remove' is passed.
+        if remove is True:
+            try:
+                os.remove(f)
+            except Exception:
+                self.logger.error("Unable to remove the file: {0}".format(f))
+                pass
+
         if v is True:
-            self.logger.debug("Shredding took {0} seconds.".format(t2-t1))
+            self.logger.debug("Shredding took %.2f seconds." % (t2-t1))
         return overwritten
