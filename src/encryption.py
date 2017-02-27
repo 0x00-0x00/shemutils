@@ -53,7 +53,8 @@ class Encryption:
 
     @staticmethod
     def create_iv():
-        return ''.join(chr(random.randint(0, 0xFF)) for _ in range(16))
+        iv = os.urandom(16)
+        return iv
 
     @staticmethod
     def hash256(string):
@@ -104,7 +105,7 @@ class Encryption:
                     if len(chunk) == 0:
                         break
                     elif len(chunk) % 16 != 0:
-                        chunk += " " * (16 - len(chunk) % 16)
+                        chunk += " ".encode() * (16 - len(chunk) % 16)
                     outfile.write(encryptor.encrypt(chunk))
         return True
 
