@@ -237,10 +237,10 @@ class RSA:
             self.logger.error("Private Key does not exists. Generate it.")
             return False
         with open(priv_f, "w") as priv:
-            priv.write(self.private_key.save_pkcs1())
+            priv.write(self.private_key.save_pkcs1().decode())
             self.logger.info("Private key saved to file '%s'" % priv_f)
         with open(pub_f, "w") as pub:
-            pub.write(self.public_key.save_pkcs1())
+            pub.write(self.public_key.save_pkcs1().decode())
             if v is True:
                 self.logger.info("Public key saved to file '%s" % pub_f)
         return True
