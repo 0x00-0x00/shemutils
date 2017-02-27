@@ -144,7 +144,7 @@ class Encryption:
         for x in range(0, len(string), chunksize):
             part = Encryption.get_chunk(string, x, chunksize=chunksize)
             if len(part) % 16 != 0:
-                part += " " * (16 - len(part) % 16)
+                part += " ".encode() * (16 - len(part) % 16)
             output.append(part)
         return output
 
