@@ -53,19 +53,19 @@ class Encryption:
 
     @staticmethod
     def create_iv():
-        return ''.join(chr(random.randint(0, 0xFF)) for i in range(16))
+        return ''.join(chr(random.randint(0, 0xFF)) for _ in range(16))
 
     @staticmethod
     def hash256(string):
-        return hashlib.sha256(string).digest()
+        return hashlib.sha256(string.encode()).digest()
 
     @staticmethod
     def hash512(string):
-        return hashlib.sha512(string).digest()
+        return hashlib.sha512(string.encode()).digest()
 
     @staticmethod
     def hashmd5(string):
-        return hashlib.md5(string).digest()
+        return hashlib.md5(string.encode()).digest()
 
     @staticmethod
     def get_key(bits=256):
