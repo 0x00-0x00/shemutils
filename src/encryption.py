@@ -144,15 +144,21 @@ class Encryption:
         for x in range(0, len(string), chunksize):
             part = Encryption.get_chunk(string, x, chunksize=chunksize)
             if len(part) % 16 != 0:
-                part += " ".encode() * (16 - len(part) % 16)
+                part += " " * (16 - len(part) % 16)
             output.append(part)
         return output
 
     @staticmethod
     def encrypt_message(plaintext, key, iv):
+        """
+        Function to encrypt a plaintext message.
+        Also checks if IV length is correct.
+        """
         psize = sys.getsizeof(plaintext)
+        if len(iv) != 16:
+            return "Error: Invalid IV size."
         encryptor = AES.new(key, AES.MODE_CBC, iv)
-        cipher = str()
+        cipher = bytes()
         cipher += struct.pack("<Q", psize)
         cipher += iv
         for chunk in Encryption.split_string(plaintext):
@@ -161,11 +167,17 @@ class Encryption:
 
     @staticmethod
     def decrypt_message(cipher, key):
+        """
+        Function to decrypt data from input.
+        Also checks if IV length is correct.
+        """
         iv = cipher[struct.calcsize("Q"):struct.calcsize("3Q")]
+        if len(iv) != 16:
+            return "Error: Invalid IV size."
         decryptor = AES.new(key, AES.MODE_CBC, iv)
         plaintext = str()
         for chunk in Encryption.split_string(cipher[struct.calcsize("3Q"):]):
-            plaintext += decryptor.decrypt(chunk)
+            plaintext += decryptor.decrypt(chunk).decode()
         return plaintext
 
 
