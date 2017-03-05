@@ -40,7 +40,7 @@ class Key(object):
         :return: key string
         """
         if encoded is True:
-            return self.key.encode("base64")
+            return base64.b64encode(self.key)
 
         return self.key
 
@@ -58,15 +58,24 @@ class Encryption:
 
     @staticmethod
     def hash256(string):
-        return hashlib.sha256(string.encode()).digest()
+        if type(string) is str:
+            return hashlib.sha256(string.encode()).digest()
+        else:
+            return hashlib.sha256(string).digest()
 
     @staticmethod
     def hash512(string):
-        return hashlib.sha512(string.encode()).digest()
+        if type(string) is str:
+            return hashlib.sha512(string.encode()).digest()
+        else:
+            return hashlib.sha512(string).digest()
 
     @staticmethod
     def hashmd5(string):
-        return hashlib.md5(string.encode()).digest()
+        if type(string) is str:
+            return hashlib.md5(string.encode()).digest()
+        else:
+            return hashlib.md5(string).digest()
 
     @staticmethod
     def get_key(bits=256):
