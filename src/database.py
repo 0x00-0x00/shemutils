@@ -1,8 +1,8 @@
 import sqlite3
+import gevent
 from copy import copy
 from gevent.event import Event
 from gevent.queue import Queue
-import gevent
 from shemutils.logger import Logger
 from shemutils.database_errors import InvalidInitializer, InvalidSize
 
