@@ -31,16 +31,16 @@ class Checksum(object):
 
     def _readnhash(self, algorithm, chunk=4096):
         """Detects algorithm, read file content, update into alg. object and hex digest."""
-        if algorithm == 0 or algorithm == "md5":
+        if algorithm == 0 or algorithm.lower() == "md5":
             m = hashlib.md5()
             alg = "MD5"
-        elif algorithm == 1 or algorithm == "sha256":
+        elif algorithm == 1 or algorithm.lower() == "sha256":
             m = hashlib.sha256()
             alg = "SHA256"
-        elif algorithm == 2 or algorithm == "sha512":
+        elif algorithm == 2 or algorithm.lower() == "sha512":
             m = hashlib.sha512()
             alg = "SHA512"
-        elif algorithm == 3 or algorithm == "sha1":
+        elif algorithm == 3 or algorithm.lower() == "sha1":
             m = hashlib.sha1
             alg = "SHA1"
         else:
@@ -78,4 +78,3 @@ class Checksum(object):
         g = gevent.spawn(self._readnhash, self.algorithm)
         g.join()
         return g.get()
-
