@@ -261,10 +261,8 @@ class RSA:
             self.logger.error("Public key file does not exists.")
         with open(priv_f, "rb") as priv:
             priv_data = priv.read()
-            #priv_data = priv_data.encode("ascii")
         with open(pub_f, "rb") as pub:
             pub_data = pub.read()
-            #pub_data = pub_data.encode("ascii")
         self.private_key = rsa.PrivateKey.load_pkcs1(priv_data)
         self.public_key = rsa.PublicKey.load_pkcs1(pub_data)
         if v is True:
